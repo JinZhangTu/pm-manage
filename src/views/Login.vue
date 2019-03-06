@@ -3,67 +3,97 @@
     <div class="login-container">
       <div class="login-left">
         <div class="login-header">
-          <!-- <font-awesome-icon :icon="['fas', 'square']"/>
-          <font-awesome-icon :icon="['far', 'square']"/> -->
-          <font-awesome-icon :icon="['fab', 'accessible-icon']"/>
           <span>
-            <i class="fa fa-camera-retro fa-lg"></i>
+            <font-awesome-icon :icon="['far', 'home']" size="lg"/>
           </span>
-          <!-- <h1>智慧小区物业管理系统</h1> -->
+          <span>智慧小区物业管理系统</span>
         </div>
         <div class="login-from">
           <el-form :label-position="labelPosition" label-width="80px" :model="user">
-            <el-form-item label="用户名">
-              <el-input v-model="user.userName"></el-input>
+            <el-form-item>
+              <el-input v-model="user.userName" placeholder="用户名">
+                <template slot="prepend">
+                  <font-awesome-icon :icon="['fas', 'user']"/>
+                </template>
+              </el-input>
             </el-form-item>
-            <el-form-item label="密码">
-              <el-input v-model="user.password"></el-input>
+            <el-form-item>
+              <el-input v-model="password" placeholder="密码">
+                <template slot="prepend">
+                  <font-awesome-icon :icon="['fas', 'unlock-alt']"/>
+                </template>
+              </el-input>
             </el-form-item>
+            <div class="login-action relation">
+              <el-button type="primary" @click="onSubmit" size="medium" plain>登录</el-button>
+              <el-button type="text" class="text-btn">注册</el-button>
+            </div>
           </el-form>
         </div>
       </div>
-      <div class="login-rigit">456</div>
+      <!-- <div class="login-rigit">456</div> -->
     </div>
   </div>
 </template>
 
 <script>
+import md5 from "js-md5";
+
 export default {
   name: "login",
   data() {
     return {
-      labelPosition: "left",
+      labelPosition: "top",
       user: {
         userName: "",
         password: ""
-      }
+      },
+      password: ""
     };
+  },
+  methods: {
+    onSubmit() {
+      this.user.password = md5(this.password);
+      console.log(this.user.password);
+    }
   }
 };
 </script>
 
 <style>
 .login-container {
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  margin: auto;
-  width: 50vw;
-  height: 50vh;
+  position: relative;
+  left: 25vw;
+  top: 25vh;
+  width: 50%;
+  height: 50%;
   display: inline-flex;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
 }
 .login-left {
   height: 100%;
-  width: 70%;
+  width: 50%;
+  padding: 2rem 6rem;
   /* box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1) */
 }
 .login-right {
   height: 100%;
-  width: 30%;
+  width: 50%;
   /* box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1) */
+}
+.login-header {
+  text-align: center;
+  margin: 0 0 3.5rem 0;
+}
+.login-action {
+  margin-top: 2rem;
+  text-align: center;
+}
+.text-btn {
+  position: absolute;
+  bottom: 0;
+  right: 5px;
+  padding: 0;
 }
 </style>
 
