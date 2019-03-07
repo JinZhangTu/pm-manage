@@ -38,10 +38,8 @@ body {
   width: 100%;
   height: 100%;
 }
-/* #app {
-  position: absolute;
-  top: 0px;
-  bottom: 0px;
+#app {
   width: 100%;
-} */
+  height: 100%;
+}
 </style>

@@ -1,9 +1,12 @@
 import Vue from 'vue'
-import './plugins/fontawesome'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import './plugins/element.js'
+
+import './plugins/element'
+import './plugins/fontawesome'
+import './plugins/axios'
+
 import './assets/css/common.css'
 
 Vue.config.productionTip = false

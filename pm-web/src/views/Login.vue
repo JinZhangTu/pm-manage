@@ -1,10 +1,10 @@
 <template>
-  <div class="login">
+  <div id="login">
     <div class="login-container">
       <div class="login-left">
         <div class="login-header">
           <span>
-            <font-awesome-icon :icon="['far', 'home']" size="lg"/>
+            <font-awesome-icon :icon="['fas', 'home']" size="lg"/>
           </span>
           <span>智慧小区物业管理系统</span>
         </div>
@@ -25,7 +25,7 @@
               </el-input>
             </el-form-item>
             <div class="login-action relation">
-              <el-button type="primary" @click="onSubmit" size="medium" plain>登录</el-button>
+              <el-button @click="onSubmit" size="medium" plain>登录</el-button>
               <el-button type="text" class="text-btn">注册</el-button>
             </div>
           </el-form>
@@ -54,13 +54,24 @@ export default {
   methods: {
     onSubmit() {
       this.user.password = md5(this.password);
-      console.log(this.user.password);
+      this.axios
+        .post("/api/checkLogin", this.user)
+        .then(function(response) {
+          this.user = response.data.data;
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     }
   }
 };
 </script>
 
 <style>
+#login {
+  width: 100%;
+  height: 100%;
+}
 .login-container {
   position: relative;
   left: 25vw;
