@@ -1,17 +1,31 @@
 <template>
   <div id="header">
-    <div class="pull-right">123</div>
+    <span class="pull-right">
+      <!-- <i class="icon-user-circle"></i> -->
+      <!-- <font-awesome-icon :icon="['far','user']" size="lg"></font-awesome-icon> -->
+      <span>{{currentName}}</span>&nbsp;&nbsp;&nbsp;
+      <small>
+        <a style="cursor: pointer" @click="logout()">注销</a>
+      </small>
+    </span>
   </div>
 </template>
 
 <script>
 export default {
-  name: "Header"
+  name: "Header",
+  computed: {
+    currentName() {
+      return this.$store.state.name;
+    }
+  },
+  methods: {
+    logout() {
+      this.$router.push("/login");
+    }
+  }
 };
 </script>
 
 <style>
-#header {
-  margin: 0 20px;
-}
 </style>

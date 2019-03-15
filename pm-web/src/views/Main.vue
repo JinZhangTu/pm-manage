@@ -1,13 +1,13 @@
 <template>
-  <div class="main">
+  <div id="main" class="full-screen">
     <el-container>
-      <el-header>
-        <Header></Header>
-      </el-header>
+      <el-aside width="160px">
+        <Aside></Aside>
+      </el-aside>
       <el-container>
-        <el-aside width="200px">
-          <Aside></Aside>
-        </el-aside>
+        <el-header height="60px">
+          <Header></Header>
+        </el-header>
         <el-main>Main</el-main>
       </el-container>
     </el-container>
@@ -19,7 +19,6 @@ import Aside from "@/components/Aside.vue";
 import Header from "@/components/Header.vue";
 
 export default {
-  name: "main",
   components: {
     // HelloWorld
     Aside,
@@ -36,10 +35,13 @@ export default {
 
 .el-header {
   /* background-color: #b3c0d1; */
-  background-color: #d3dce6;
+  /* background-color: #d3dce6; */
   color: #333;
   text-align: center;
   line-height: 60px;
+  height: 80px;
+  padding: 0 35px !important;
+  box-shadow: 0 20px 0 0 rgba(0, 0, 0, 0.3);
 }
 
 .el-aside {
@@ -51,7 +53,7 @@ export default {
 }
 
 .el-main {
-  /* background-color: #e9eef3; */
+  background-color: #f2f2f2;
   color: #333;
   text-align: center;
   /* line-height: 500px; */

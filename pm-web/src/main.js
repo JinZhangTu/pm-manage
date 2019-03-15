@@ -12,19 +12,24 @@ import './assets/css/common.css'
 Vue.config.productionTip = false
 
 
+
 router.beforeEach((to, from, next) => {
-  if (to.path == '/login') {
-    sessionStorage.removeItem('user');
-  }
-  let user = JSON.parse(sessionStorage.getItem('user'));
-  if (!user && to.path != '/login') {
-    next({
-      path: '/login'
-    })
+  if (to.path === '/login') {
+    // localStorage.removeItem('Authorization');
+    // localStorage.removeItem('name');
+    // localStorage.removeItem('admin');
+    localStorage.clear();
+    next();
   } else {
-    next()
+    let token = localStorage.getItem('Authorization');
+
+    if (token === null || token === '') {
+      next('/login');
+    } else {
+      next();
+    }
   }
-})
+});
 
 new Vue({
   router,

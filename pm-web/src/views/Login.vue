@@ -18,7 +18,7 @@
               </el-input>
             </el-form-item>
             <el-form-item>
-              <el-input v-model="password" placeholder="密码">
+              <el-input v-model="user.password" placeholder="密码" show-password>
                 <template slot="prepend">
                   <font-awesome-icon :icon="['fas', 'unlock-alt']"/>
                 </template>
@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import md5 from "js-md5";
+import { mapMutations } from "vuex";
 
 export default {
   name: "login",
@@ -47,17 +47,24 @@ export default {
       user: {
         userName: "",
         password: ""
-      },
-      password: ""
+      }
     };
   },
   methods: {
+    ...mapMutations(["changeLogin"]),
     onSubmit() {
-      this.user.password = md5(this.password);
+      let vm = this;
       this.axios
         .post("/api/checkLogin", this.user)
         .then(function(response) {
-          this.user = response.data.data;
+          if (response.data.code == 200) {
+            vm.changeLogin({
+              Authorization: response.data.token,
+              name: response.data.data.name,
+              admin: response.data.data.admin
+            });
+            vm.$router.push("/main");
+          }
         })
         .catch(function(error) {
           console.log(error);
