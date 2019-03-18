@@ -1,5 +1,5 @@
 <template>
-  <div id="header">
+  <!-- <div class="header"> -->
     <span class="pull-right">
       <!-- <i class="icon-user-circle"></i> -->
       <!-- <font-awesome-icon :icon="['far','user']" size="lg"></font-awesome-icon> -->
@@ -8,7 +8,7 @@
         <a style="cursor: pointer" @click="logout()">注销</a>
       </small>
     </span>
-  </div>
+  <!-- </div> -->
 </template>
 
 <script>

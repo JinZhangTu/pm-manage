@@ -1,16 +1,19 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
+// import Home from './views/Home.vue'
 import Main from './views/Main.vue'
 import Login from './views/Login.vue'
+import UserList from './views/user/UserList.vue'
+import RealEstate from './views/real-estate/RealEstateList.vue'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [{
       path: '/',
-      name: 'home',
-      component: Home
+      // name: 'home',
+      // component: Home
+      redirect: '/login'
     },
     {
       path: '/about',
@@ -25,12 +28,39 @@ export default new Router({
     {
       path: '/main',
       name: 'main',
-      component: Main
+      component: Main,
+      children: [{
+        path: '/user-list',
+        // name: 'user-list',
+        component: UserList
+      }, {
+        path: '/real-estate',
+        component: RealEstate
+      }],
+      beforeEnter: (to, from, next) => {
+        var token = localStorage.getItem('Authorization');
+        if (token === null || token === '') {
+          next({
+            path: '/login'
+          })
+        } else {
+          next();
+        }
+      }
     },
     {
       path: '/login',
       name: 'login',
       component: Login
+    },
+
+
+
+
+    // 当页面地址和上面任一地址不匹配，则跳转到404
+    {
+      path: '*',
+      redirect: '/404'
     }
   ]
 })

@@ -8,7 +8,9 @@
         <el-header height="60px">
           <Header></Header>
         </el-header>
-        <el-main>Main</el-main>
+        <el-main>
+          <router-view/>
+        </el-main>
       </el-container>
     </el-container>
   </div>
@@ -39,9 +41,10 @@ export default {
   color: #333;
   text-align: center;
   line-height: 60px;
-  height: 80px;
+  /* height: 80px; */
   padding: 0 35px !important;
-  box-shadow: 0 20px 0 0 rgba(0, 0, 0, 0.3);
+  z-index: 10 !important;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .el-aside {

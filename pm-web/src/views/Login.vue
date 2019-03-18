@@ -54,7 +54,7 @@ export default {
     ...mapMutations(["changeLogin"]),
     onSubmit() {
       let vm = this;
-      this.axios
+      vm.axios
         .post("/api/checkLogin", this.user)
         .then(function(response) {
           if (response.data.code == 200) {

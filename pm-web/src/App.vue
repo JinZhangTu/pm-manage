@@ -12,8 +12,11 @@
     <HelloWorld msg="Welcome to Your Vue.js App"/>
   </div>-->
   <div id="app">
+    <!-- 房产信息、业主信息、业主服务管理、保安消费管理、保洁环卫管理 -->
     <transition name="slide">
-      <router-view></router-view>
+      <keep-alive>
+        <router-view></router-view>
+      </keep-alive>
     </transition>
   </div>
 </template>
