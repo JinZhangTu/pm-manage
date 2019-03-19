@@ -13,7 +13,6 @@ router.all('*', function (req, res, next) {
     res.header('Access-Control-Allow-Headers', 'Content-Type');
     if (req.url != '/checkLogin') {
         var token = req.headers.authorization;
-        console.log(token);
         jwt.verify(token, 'xiaojia', function (error, decoded) {
             if (error) {
                 res.json({
@@ -22,7 +21,6 @@ router.all('*', function (req, res, next) {
                 });
                 return
             } else {
-                console.log(decoded)
                 next();
             }
         })
@@ -135,7 +133,6 @@ router.post('/userEdit', function (req, res) {
     var sql = `update user set userName=?,type=?,status=?,last_modified_by=?,last_modified_date=? where
     id = ?`
     var data = [userName, type, status, last_modified_by, new Date(), id]
-    console.log(data);
     pool.query(sql, data, function (err, result) {
         if (err) {
             res.json({
@@ -157,9 +154,25 @@ router.delete('/userDelete', function (req, res) {
     var sql = `update user set status=? where id=?`;
     var status = req.body.status;
     var id = req.body.id;
-    var data = [status, id];
-    pool.query(sql, data, function (err, result) {
-        
-    })
+    var data = [0, id];
+    if (status == 0) {
+        res.json({
+            message: '用户已经是未激活状态'
+        })
+    } else {
+        pool.query(sql, data, function (err, result) {
+            if (err) {
+                res.json({
+                    code: 400,
+                    message: '数据库操作异常'
+                })
+            } else {
+                res.json({
+                    code: 200,
+                    message: '删除成功'
+                })
+            }
+        })
+    }
 })
 module.exports = router;
