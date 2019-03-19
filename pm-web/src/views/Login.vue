@@ -57,13 +57,16 @@ export default {
       vm.axios
         .post("/api/checkLogin", this.user)
         .then(function(response) {
-          if (response.data.code == 200) {
+          var data = response.data;
+          if (data.code == 200) {
             vm.changeLogin({
-              Authorization: response.data.token,
-              name: response.data.data.name,
-              admin: response.data.data.admin
+              Authorization: data.token,
+              name: data.content.name,
+              admin: data.content.admin
             });
             vm.$router.push("/main");
+          } else {
+            vm.$message(data.message);
           }
         })
         .catch(function(error) {

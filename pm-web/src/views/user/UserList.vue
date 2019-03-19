@@ -18,14 +18,27 @@
       </el-col>
     </el-row>
     <el-table :data="tableData" stripe style="width: 100%" class="mb-20">
-      <el-table-column prop="userName" label="日期" width="180"></el-table-column>
-      <el-table-column prop="type" label="姓名" width="180"></el-table-column>
-      <el-table-column prop="type" label="地址"></el-table-column>
+      <el-table-column prop="userName" label="用户名" width="180"></el-table-column>
+      <el-table-column prop="type" label="类型" width="180"></el-table-column>
+      <el-table-column align="center" fixed="right" label="操作">
+        <template slot-scope="scope">
+          <el-dropdown @command="handleCommand">
+            <span class="el-dropdown-link">
+              <i class="el-icon-more"></i>
+            </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item icon="el-icon-share" :command="{type:'detail',id:scope.row.id}">详情</el-dropdown-item>
+              <el-dropdown-item icon="el-icon-edit" :command="{type:'edit',id:scope.row.id}">修改</el-dropdown-item>
+              <el-dropdown-item icon="el-icon-delete" :command="{type:'delete',id:scope.row.id}">删除</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </template>
+      </el-table-column>
     </el-table>
     <el-pagination
       @current-change="handleCurrentChange"
       :page-size="pageSize"
-      :pager-count="9"
+      :pager-count="7"
       :current-page="currentPage"
       layout="prev, pager, next"
       :total="totalCount"
@@ -43,34 +56,52 @@ export default {
       pageSizes: [10, 15, 20, 25],
       pageSize: 10,
       currentPage: 1,
-      totalCount:5
+      totalCount: 10
     };
   },
   created() {
-    var vm = this;
-    var params = {
-      page: vm.currentPage,
-      pageSize: vm.pageSize
-    };
-    vm.axios
-      .get("/api/usersList", { params: params })
-      .then(function(response) {
-        var data = response.data;
-        if (data.code == 200) {
-          vm.totalCount = data.totalCount;
-          vm.tableData = data.content;
-        } else {
-          var y = response.data;
-        }
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
+    this.search();
+  },
+  watch: {
+    pageSize: function() {
+      this.search();
+    }
   },
   methods: {
     handleCurrentChange(val) {
       this.currentPage = val;
-      console.log(this.currentPage);
+      this.search();
+    },
+    handleCommand(command) {
+      if (command.type == "detail" || command.type == "edit") {
+        this.$router.push({
+          name: "user-edit",
+          params: { type: command.type, id: command.id }
+        });
+      } else if (command.type == "delete") {
+      }
+      this.$message("click on item " + command.type);
+    },
+    search: function() {
+      var vm = this;
+      var params = {
+        page: vm.currentPage,
+        pageSize: vm.pageSize
+      };
+      vm.axios
+        .get("/api/usersList", { params: params })
+        .then(function(response) {
+          var data = response.data;
+          if (data.code == 200) {
+            vm.totalCount = data.totalCount;
+            vm.tableData = data.content;
+          } else {
+            vm.$message(data.message);
+          }
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     }
   }
 };

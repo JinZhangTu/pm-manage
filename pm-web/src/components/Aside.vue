@@ -1,5 +1,5 @@
 <template>
-  <el-menu default-active="/user-list" class="el-menu-vertical-demo pt" router>
+  <el-menu :default-active="path" class="el-menu-vertical-demo pt" router>
     <!-- @open="handleOpen"
     @close="handleClose"-->
     <el-menu-item index="/real-estate">
@@ -16,6 +16,11 @@
 <script>
 export default {
   name: "Aside",
+  data() {
+    return {
+      path: "/user-list"
+    };
+  },
   methods: {
     // handleOpen(key, keyPath) {
     //   console.log(key, keyPath);
