@@ -55,7 +55,7 @@ router.post('/checkLogin', function (req, res) {
                 })
                 var data = {
                     code: 200,
-                    data: payload,
+                    content: payload,
                     token: token,
                     message: '登录成功！'
                 };
@@ -83,7 +83,7 @@ router.get('/usersList', function (req, res) {
     page = page - 0;
     var pageSize = req.query.pageSize;
     var sql = `select count(*) as totalCount from user;
-    select userName,type from user limit ${(page - 1) * pageSize}, ${pageSize}
+    select id,userName,type,status,created_by,created_date,last_modified_by,last_modified_date from user limit ${(page - 1) * pageSize}, ${pageSize}
     `
     pool.query(sql, function (err, result) {
         if (err) {
@@ -104,6 +104,62 @@ router.get('/usersList', function (req, res) {
     })
 })
 
-// 
+// 查询单条用户信息
+router.get('/userDetail', function (req, res) {
+    var id = req.query.id;
+    var sql = `select id,userName,type,status,created_by,created_date,last_modified_by,last_modified_date from user where id=?`
+    pool.query(sql, [id], function (err, result) {
+        if (err) {
+            res.json({
+                code: 400,
+                message: "数据库操作异常！"
+            });
+            return;
+        } else {
+            res.json({
+                code: 200,
+                content: result,
+                message: "success"
+            });
+        }
+    })
+})
 
+// 修改用户信息
+router.post('/userEdit', function (req, res) {
+    var userName = req.body.userName;
+    var type = req.body.type;
+    var status = req.body.status;
+    var last_modified_by = req.body.last_modified_by;
+    var id = req.body.id;
+    var sql = `update user set userName=?,type=?,status=?,last_modified_by=?,last_modified_date=? where
+    id = ?`
+    var data = [userName, type, status, last_modified_by, new Date(), id]
+    console.log(data);
+    pool.query(sql, data, function (err, result) {
+        if (err) {
+            res.json({
+                code: 400,
+                message: "数据库操作异常！"
+            });
+            return;
+        } else {
+            res.json({
+                code: 200,
+                message: "更新成功！"
+            });
+        }
+    })
+})
+
+// 删除用户信息(将用户status置为0（未激活状态）))
+router.delete('/userDelete', function (req, res) {
+    var sql = `update user set status=? where id=?`;
+    var status = req.body.status;
+    var id = req.body.id;
+    var data = [status, id];
+    pool.query(sql, data, function (err, result) {
+        
+    })
+})
 module.exports = router;
