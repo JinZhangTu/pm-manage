@@ -36,9 +36,15 @@ export default {
         if (data.code == 200) {
           vm.data = data.content[0];
           vm.data.status = vm.data.status == 1 ? true : false;
-          vm.$message(data.message);
+          vm.$message({
+            message: data.message,
+            type: "success"
+          });
         } else {
-          vm.$message(data.message);
+          vm.$message({
+            message: data.message,
+            type: "error"
+          });
         }
       })
       .catch(function(error) {
@@ -64,9 +70,15 @@ export default {
         .then(function(response) {
           var data = response.data;
           if (data.code == 200) {
-            vm.$message(data.message);
+            vm.$message({
+              message: data.message,
+              type: "success"
+            });
           } else {
-            vm.$message(data.message);
+            vm.$message({
+              message: data.message,
+              type: "error"
+            });
           }
         })
         .catch(function(error) {

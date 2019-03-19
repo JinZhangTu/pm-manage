@@ -66,7 +66,10 @@ export default {
             });
             vm.$router.push("/main");
           } else {
-            vm.$message(data.message);
+            vm.$message({
+              message: data.message,
+              type: "error"
+            });
           }
         })
         .catch(function(error) {

@@ -29,7 +29,7 @@
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item icon="el-icon-share" :command="{type:'detail',id:scope.row.id}">详情</el-dropdown-item>
               <el-dropdown-item icon="el-icon-edit" :command="{type:'edit',id:scope.row.id}">修改</el-dropdown-item>
-              <el-dropdown-item icon="el-icon-delete" :command="{type:'delete',id:scope.row.id}">删除</el-dropdown-item>
+              <el-dropdown-item icon="el-icon-delete" :command="{type:'delete',row:scope.row}">删除</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </template>
@@ -79,8 +79,31 @@ export default {
           params: { type: command.type, id: command.id }
         });
       } else if (command.type == "delete") {
+        var vm = this;
+        var params = command.row;
+        console.log(command.row.status);
+        vm.axios
+          .delete("/api/userDelete", { data: params })
+          .then(function(response) {
+            var data = response.data;
+            if (data.code == 200) {
+              vm.search();
+              vm.$message({
+                message: data.message,
+                type: "success"
+              });
+            } else {
+              vm.$message({
+                message: data.message,
+                type: "error"
+              });
+            }
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
       }
-      this.$message("click on item " + command.type);
+      // this.$message("click on item " + command.type);
     },
     search: function() {
       var vm = this;
@@ -96,7 +119,10 @@ export default {
             vm.totalCount = data.totalCount;
             vm.tableData = data.content;
           } else {
-            vm.$message(data.message);
+            vm.$message({
+              message: data.message,
+              type: "success"
+            });
           }
         })
         .catch(function(error) {
