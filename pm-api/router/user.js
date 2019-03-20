@@ -34,7 +34,7 @@ router.post('/checkLogin', function (req, res) {
     var userName = req.body.userName;
     var password = md5(req.body.password);
     const secret = 'xiaojia';
-    pool.query("select userName,type from user where userName='" + userName + "'and password='" + password + "'", function (err, result) {
+    pool.query("select userName,type,status from user where userName='" + userName + "'and password='" + password + "'", function (err, result) {
         if (err) {
             res.json({
                 code: 400,
@@ -43,21 +43,27 @@ router.post('/checkLogin', function (req, res) {
             return;
         } else {
             if (result.length == 1) {
-                var payload = {
-                    name: result[0].userName,
-                    admin: false
+                if (result[0].status == 1) {
+                    var payload = {
+                        name: result[0].userName,
+                        admin: false
+                    }
+                    if (result[0].type === 'admin') payload.admin = true;
+                    const token = jwt.sign(payload, secret, {
+                        expiresIn: '1day'
+                    })
+                    var data = {
+                        code: 200,
+                        content: payload,
+                        token: token,
+                        message: '登录成功！'
+                    };
+                    res.json(data);
+                } else {
+                    res.json({
+                        message: '账户未激活'
+                    })
                 }
-                if (result[0].type === 'admin') payload.admin = true;
-                const token = jwt.sign(payload, secret, {
-                    expiresIn: '1day'
-                })
-                var data = {
-                    code: 200,
-                    content: payload,
-                    token: token,
-                    message: '登录成功！'
-                };
-                res.json(data);
             } else if (result.length < 1) {
                 var data = {
                     code: 401,
@@ -71,6 +77,29 @@ router.post('/checkLogin', function (req, res) {
                 }
                 res.json(data);
             }
+        }
+    })
+})
+
+//用户注册
+router.post('/userRegister', function (req, res) {
+    var sql = `insert into user (userName,password,type,status,created_by,created_date) value(?,?,?,?,?,?)`
+    var userName = req.body.userName;
+    var password = md5(req.body.password);
+    var created_by = req.body.created_by;
+    var data = [userName, password, 'user', 1, created_by, new Date()];
+    pool.query(sql, data, function (err, result) {
+        if (err) {
+            res.json({
+                code: 400,
+                message: "数据库操作异常！"
+            });
+            return;
+        } else {
+            res.json({
+                code: 200,
+                message: "注册成功！"
+            });
         }
     })
 })
