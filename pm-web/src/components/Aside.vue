@@ -1,12 +1,10 @@
 <template>
   <el-menu :default-active="path" class="el-menu-vertical-demo pt" router>
-    <!-- @open="handleOpen"
-    @close="handleClose"-->
     <el-menu-item index="/real-estate">
       <i class="el-icon-menu"></i>
       <span slot="title">房产</span>
     </el-menu-item>
-    <el-menu-item index="/user-list">
+    <el-menu-item index="/user-list" v-if="hasAuthority">
       <i class="el-icon-menu"></i>
       <span slot="title">用户</span>
     </el-menu-item>
@@ -21,14 +19,12 @@ export default {
       path: "/user-list"
     };
   },
-  methods: {
-    // handleOpen(key, keyPath) {
-    //   console.log(key, keyPath);
-    // },
-    // handleClose(key, keyPath) {
-    //   console.log(key, keyPath);
-    // }
-  }
+  computed: {
+    hasAuthority() {
+      return this.$store.state.admin;
+    }
+  },
+  methods: {}
 };
 </script>
 
