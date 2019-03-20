@@ -123,6 +123,34 @@ router.get('/userDetail', function (req, res) {
     })
 })
 
+// 查询所有带关键词用户信息
+router.get('/usersList/keyword', function (req, res) {
+    var page = req.query.page || 1;
+    page = page - 0;
+    var pageSize = req.query.pageSize;
+    var keyword = req.query.keyword;
+    var sql = `select count(*) as totalCount from user;
+    select id,userName,type,status from user where userName like '%${keyword}%'  limit ${(page - 1) * pageSize}, ${pageSize}
+    `
+    pool.query(sql, function (err, result) {
+        if (err) {
+            res.json({
+                code: 400,
+                message: "数据库操作异常！"
+            });
+            return;
+        } else {
+            var totalCount = result[0][0].totalCount;
+            res.json({
+                code: 200,
+                totalCount: totalCount,
+                content: result[1],
+                message: "success"
+            });
+        }
+    })
+})
+
 // 修改用户信息
 router.post('/userEdit', function (req, res) {
     var userName = req.body.userName;
@@ -175,4 +203,5 @@ router.delete('/userDelete', function (req, res) {
         })
     }
 })
+
 module.exports = router;
