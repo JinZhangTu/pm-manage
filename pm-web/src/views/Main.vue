@@ -1,7 +1,7 @@
 <template>
   <div id="main" class="full-screen">
     <el-container>
-      <el-aside width="160px">
+      <el-aside width="120px">
         <Aside></Aside>
       </el-aside>
       <el-container>

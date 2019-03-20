@@ -2,8 +2,8 @@
   <div id="user-list" class="full-screen">
     <el-row class="mb-20">
       <el-col :span="15">
-        <el-input placeholder="请输入内容" v-model="searchStr" class="input-with-select">
-          <el-button slot="append" icon="el-icon-search"></el-button>
+        <el-input placeholder="请输入内容" v-model="keyword" class="input-with-select">
+          <el-button slot="append" icon="el-icon-search" @click="searchStr"></el-button>
         </el-input>
       </el-col>
     </el-row>
@@ -18,8 +18,20 @@
       </el-col>
     </el-row>
     <el-table :data="tableData" stripe style="width: 100%" class="mb-20">
+      <el-table-column label="状态" width="180">
+        <template slot-scope="scope">
+          <font-awesome-icon
+            :icon="['fas', 'circle']"
+            v-bind:class="scope.row.status==0 ? 'color-red' : 'color-green'"
+          />
+        </template>
+      </el-table-column>
       <el-table-column prop="userName" label="用户名" width="180"></el-table-column>
-      <el-table-column prop="type" label="类型" width="180"></el-table-column>
+      <el-table-column label="类型" width="180">
+        <template slot-scope="scope">
+          <el-tag type="success" class="tag-w">{{scope.row.type}}</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column align="center" fixed="right" label="操作">
         <template slot-scope="scope">
           <el-dropdown @command="handleCommand">
@@ -51,7 +63,7 @@ export default {
   name: "UserList",
   data() {
     return {
-      searchStr: "",
+      keyword: "",
       tableData: null,
       pageSizes: [10, 15, 20, 25],
       pageSize: 10,
@@ -64,13 +76,15 @@ export default {
   },
   watch: {
     pageSize: function() {
-      this.search();
+      if (this.keyword == "") this.search();
+      else this.searchStr();
     }
   },
   methods: {
     handleCurrentChange(val) {
       this.currentPage = val;
-      this.search();
+      if (this.keyword == "") this.search();
+      else this.searchStr();
     },
     handleCommand(command) {
       if (command.type == "detail" || command.type == "edit") {
@@ -81,7 +95,6 @@ export default {
       } else if (command.type == "delete") {
         var vm = this;
         var params = command.row;
-        console.log(command.row.status);
         vm.axios
           .delete("/api/userDelete", { data: params })
           .then(function(response) {
@@ -128,10 +141,44 @@ export default {
         .catch(function(error) {
           console.log(error);
         });
+    },
+    searchStr: function() {
+      var vm = this;
+      if (vm.keyword == "") {
+        vm.search();
+      } else {
+        var params = {
+          page: vm.currentPage,
+          pageSize: vm.pageSize,
+          keyword: vm.keyword
+        };
+        vm.axios
+          .get("/api/usersList/keyword", { params: params })
+          .then(function(response) {
+            var data = response.data;
+            if (data.code == 200) {
+              vm.totalCount = data.totalCount;
+              vm.tableData = data.content;
+            } else {
+              vm.$message({
+                message: data.message,
+                type: "success"
+              });
+            }
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
+      }
     }
   }
 };
 </script>
 
 <style>
+.tag-w {
+  width: 55px;
+  text-align: center;
+  padding: 0 !important;
+}
 </style>

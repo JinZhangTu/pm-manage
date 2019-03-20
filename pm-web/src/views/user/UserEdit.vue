@@ -13,7 +13,7 @@
         <el-switch v-model="data.status" class="pull-left"></el-switch>
       </el-form-item>
       <div>
-        <el-button v-if="type=='edit'" @click="editUser('ruleForm2')">确定</el-button>
+        <el-button v-if="type=='edit'" @click="editUser()">确定</el-button>
         <el-button @click="goBack()">返回</el-button>
       </div>
     </el-form>
@@ -36,10 +36,6 @@ export default {
         if (data.code == 200) {
           vm.data = data.content[0];
           vm.data.status = vm.data.status == 1 ? true : false;
-          vm.$message({
-            message: data.message,
-            type: "success"
-          });
         } else {
           vm.$message({
             message: data.message,
@@ -63,7 +59,6 @@ export default {
       var vm = this;
       var params = _.cloneDeep(vm.data);
       params.last_modified_by = vm.$store.state.name;
-      params.last_modified_date = new Date();
       params.status = vm.data.status ? 1 : 0;
       vm.axios
         .post("/api/userEdit", params)
