@@ -16,7 +16,7 @@ export default {
   name: "Aside",
   data() {
     return {
-      path: "/user-list"
+      path: this.$router.history.current.path
     };
   },
   computed: {

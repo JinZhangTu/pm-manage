@@ -25,7 +25,7 @@
               </el-input>
             </el-form-item>
             <div class="login-action relation">
-              <el-button @click="onSubmit" size="medium" plain>登录</el-button>
+              <el-button @click="onSubmit" type="primary" size="medium" plain class="btn-w90">登录</el-button>
               <el-button type="text" class="text-btn">注册</el-button>
             </div>
           </el-form>

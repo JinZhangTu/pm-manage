@@ -5,6 +5,7 @@ import Main from './views/Main.vue'
 import Login from './views/Login.vue'
 import UserList from './views/user/UserList.vue'
 import UserEdit from './views/user/UserEdit.vue'
+import UserRegister from './views/user/UserRegister.vue'
 import RealEstate from './views/real-estate/RealEstateList.vue'
 
 Vue.use(Router)
@@ -35,8 +36,12 @@ export default new Router({
         component: UserList
       }, {
         path: '/user-edit/:type/:id',
-        name:'user-edit',
+        name: 'user-edit',
         component: UserEdit
+      }, {
+        path: '/user-register',
+        name: 'user-register',
+        component: UserRegister
       }, {
         path: '/real-estate',
         component: RealEstate

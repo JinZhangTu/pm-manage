@@ -2,9 +2,13 @@
   <div id="user-list" class="full-screen">
     <el-row class="mb-20">
       <el-col :span="15">
-        <el-input placeholder="请输入内容" v-model="keyword" class="input-with-select">
-          <el-button slot="append" icon="el-icon-search" @click="searchStr"></el-button>
-        </el-input>
+        <el-input placeholder="请输入内容" v-model="keyword"></el-input>
+      </el-col>
+      <el-col :span="9">
+        <div class="pull-right">
+          <el-button type="primary" @click="searchStr" size="medium" class="btn-w90">搜索</el-button>
+          <el-button type="success" @click="register" size="medium" class="btn-w90">注册</el-button>
+        </div>
       </el-col>
     </el-row>
     <el-row class="mb-20 full-left">
@@ -170,6 +174,9 @@ export default {
             console.log(error);
           });
       }
+    },
+    register: function() {
+      this.$router.push("/user-register");
     }
   }
 };
