@@ -3,13 +3,13 @@
     <div class="login-container">
       <div class="login-left">
         <div class="login-header">
-          <span>
-            <font-awesome-icon :icon="['fas', 'home']" size="lg"/>
+          <span class="mr-10">
+            <font-awesome-icon class="color-main" :icon="['fas', 'home']" size="lg"/>
           </span>
           <span>智慧小区物业管理系统</span>
         </div>
         <div class="login-from">
-          <el-form :label-position="labelPosition" label-width="80px" :model="user">
+          <el-form label-width="80px" :label-position="labelPosition" :model="user">
             <el-form-item>
               <el-input v-model="user.userName" placeholder="用户名">
                 <template slot="prepend">
@@ -25,8 +25,8 @@
               </el-input>
             </el-form-item>
             <div class="login-action relation">
-              <el-button @click="onSubmit" type="primary" size="medium" plain class="btn-w90">登录</el-button>
-              <el-button type="text" class="text-btn">注册</el-button>
+              <el-button @click="onSubmit" type="primary" size="medium" class="btn-w90">登录</el-button>
+              <el-button type="text" class="text-btn" @click="change">注册</el-button>
             </div>
           </el-form>
         </div>
@@ -40,7 +40,7 @@
 import { mapMutations } from "vuex";
 
 export default {
-  name: "login",
+  name: "Login",
   data() {
     return {
       labelPosition: "top",
@@ -75,6 +75,9 @@ export default {
         .catch(function(error) {
           console.log(error);
         });
+    },
+    change() {
+      this.$router.push("/register");
     }
   }
 };
@@ -88,26 +91,26 @@ export default {
 .login-container {
   position: relative;
   left: 25vw;
-  top: 25vh;
   width: 50%;
-  height: 50%;
+  height: 56%;
+  top: 22vh;
   display: inline-flex;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
 }
 .login-left {
-  height: 100%;
   width: 50%;
   padding: 2rem 6rem;
-  /* box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1) */
 }
 .login-right {
   height: 100%;
   width: 50%;
-  /* box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1) */
 }
 .login-header {
   text-align: center;
-  margin: 0 0 3.5rem 0;
+  margin: 1.7rem 0 2.6rem 0;
+}
+.login-header span{
+  font-size: 23px;
 }
 .login-action {
   margin-top: 2rem;
@@ -117,6 +120,7 @@ export default {
   position: absolute;
   bottom: 0;
   right: 5px;
+  top: 4px;
   padding: 0;
 }
 </style>

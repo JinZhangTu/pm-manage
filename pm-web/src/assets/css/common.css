@@ -19,7 +19,7 @@
     height: 100%;
 }
 
-.btn-w90{
+.btn-w90 {
     width: 90px !important;
 }
 
@@ -31,20 +31,28 @@
     margin-bottom: 20px !important;
 }
 
-.m-0{
+.mr-10 {
+    margin-right: 10px !important;
+}
+
+.m-0 {
     margin: 0 !important;
 }
 
-.panel-bg{
+.panel-bg {
     background-color: #ffffff;
     border: 1px solid #e5e5e5;
     padding: 1.5rem 1.5rem !important;
 }
 
-.color-red{
+.color-red {
     color: #F56C6C;
 }
 
-.color-green{
+.color-green {
     color: #67C23A;
+}
+
+.color-main {
+    color: #409EFF;
 }
