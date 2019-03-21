@@ -11,7 +11,7 @@ router.all('*', function (req, res, next) {
     res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
     res.header('Access-Control-Allow-Headers', 'Content-Type');
-    if (req.url != '/checkLogin') {
+    if (req.url != '/checkLogin' && req.url != '/userRegister') {
         var token = req.headers.authorization;
         jwt.verify(token, 'xiaojia', function (error, decoded) {
             if (error) {
