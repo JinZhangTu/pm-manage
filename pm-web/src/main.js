@@ -6,8 +6,10 @@ import store from './store'
 import './plugins/element'
 import './plugins/fontawesome'
 import './plugins/axios'
+import './plugins/moment'
 
 import './assets/css/common.css'
+import './assets/fonts/css/style.css'
 
 Vue.config.productionTip = false
 
