@@ -13,7 +13,7 @@
     </el-row>
     <el-row class="mb-20 full-left">
       <el-col :span="2">
-        <span>每页显示：</span>
+        <span style="font-size:14px;line-height:32px">每页显示：</span>
       </el-col>
       <el-col :span="2">
         <el-select v-model="pageSize" size="small" placeholder="请选择">
@@ -21,8 +21,8 @@
         </el-select>
       </el-col>
     </el-row>
-    <el-table :data="tableData" stripe style="width: 100%" class="mb-20">
-      <el-table-column label="状态" width="180">
+    <el-table :data="tableData" stripe class="mb-20">
+      <el-table-column label="状态" width="80">
         <template slot-scope="scope">
           <font-awesome-icon
             :icon="['fas', 'circle']"
@@ -30,22 +30,35 @@
           />
         </template>
       </el-table-column>
-      <el-table-column prop="userName" label="用户名" width="180"></el-table-column>
-      <el-table-column label="类型" width="180">
+      <el-table-column prop="userName" label="用户名"></el-table-column>
+      <el-table-column label="类型">
         <template slot-scope="scope">
           <el-tag type="success" class="tag-w">{{scope.row.type}}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column align="center" fixed="right" label="操作">
+      <el-table-column prop="created_by" label="创建人"></el-table-column>
+      <el-table-column label="创建时间">
+        <template
+          slot-scope="scope"
+          v-if="scope.row.created_date!=undefined"
+        >{{scope.row.created_date | dateFormat('YYYY-MM-DD HH:mm:ss')}}</template>
+      </el-table-column>
+      <el-table-column align="center" fixed="right" label="操作" width="80">
         <template slot-scope="scope">
           <el-dropdown @command="handleCommand">
             <span class="el-dropdown-link">
               <i class="el-icon-more"></i>
             </span>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item icon="el-icon-share" :command="{type:'detail',id:scope.row.id}">详情</el-dropdown-item>
-              <el-dropdown-item icon="el-icon-edit" :command="{type:'edit',id:scope.row.id}">修改</el-dropdown-item>
-              <el-dropdown-item icon="el-icon-delete" :command="{type:'delete',row:scope.row}">删除</el-dropdown-item>
+              <el-dropdown-item :command="{type:'detail',id:scope.row.id}">
+                <i class="icomoon icon-arrow-circle-right"></i>详情
+              </el-dropdown-item>
+              <el-dropdown-item :command="{type:'edit',id:scope.row.id}">
+                <i class="icomoon icon-pencil"></i>修改
+              </el-dropdown-item>
+              <el-dropdown-item :command="{type:'delete',row:scope.row}">
+                <i class="icomoon icon-delete"></i>删除
+              </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </template>

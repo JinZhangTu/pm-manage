@@ -1,11 +1,10 @@
 <template>
-  <div id="proprietor-list">proprietor</div>
+  <div id="ps">业主服务</div>
 </template>
 <script>
 export default {
-  name: "ProprietorList"
+  name: "Ps"
 };
-
 </script>
 <style>
 </style>

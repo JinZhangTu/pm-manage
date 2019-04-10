@@ -8,6 +8,8 @@ import UserList from './views/user/UserList.vue'
 import UserEdit from './views/user/UserEdit.vue'
 import UserRegister from './views/user/UserRegister.vue'
 import RealEstate from './views/real-estate/RealEstateList.vue'
+import ProprietorList from './views/proprietor/ProprietorList.vue'
+import Ps from './views/proprietor-serve/ps.vue'
 
 Vue.use(Router)
 
@@ -34,6 +36,7 @@ export default new Router({
       component: Main,
       children: [{
         path: '/user-list',
+        name: 'user-list',
         component: UserList
       }, {
         path: '/user-edit/:type/:id',
@@ -45,7 +48,16 @@ export default new Router({
         component: UserRegister
       }, {
         path: '/real-estate',
+        name: 'real-estate',
         component: RealEstate
+      }, {
+        path: '/proprietor-list',
+        name: 'proprietor-list',
+        component: ProprietorList
+      }, {
+        path: '/ps',
+        name: 'ps',
+        component: Ps
       }],
       beforeEnter: (to, from, next) => {
         var token = localStorage.getItem('Authorization');

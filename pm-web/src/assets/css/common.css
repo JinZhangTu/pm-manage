@@ -56,3 +56,19 @@
 .color-main {
     color: #409EFF;
 }
+
+.font-icon {
+    margin-right: 5px;
+    width: 24px !important;
+    text-align: center;
+    font-size: 17px;
+    margin-top: -5px;
+    /* vertical-align: middle; */
+}
+
+.icomoon {
+    display: inline-block;
+    width: 14px;
+    line-height: 14px;
+    margin-right: 5px;
+}

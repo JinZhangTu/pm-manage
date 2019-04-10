@@ -36,21 +36,15 @@ export default {
 }
 
 .el-header {
-  /* background-color: #b3c0d1; */
-  /* background-color: #d3dce6; */
   color: #333;
-  text-align: center;
   line-height: 60px;
-  /* height: 80px; */
   padding: 0 35px !important;
   z-index: 10 !important;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .el-aside {
-  /* background-color: #d3dce6; */
   color: #333;
-  /* text-align: center; */
   line-height: 200px;
   height: 100%;
 }
@@ -59,7 +53,5 @@ export default {
   background-color: #f2f2f2;
   color: #333;
   text-align: center;
-  /* line-height: 500px; */
-  /* padding: 20px; */
 }
 </style>
