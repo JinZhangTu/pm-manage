@@ -56,7 +56,10 @@
               <el-dropdown-item :command="{type:'edit',id:scope.row.id}">
                 <i class="icomoon icon-pencil"></i>修改
               </el-dropdown-item>
-              <el-dropdown-item :command="{type:'sp',row:scope.row}">
+              <el-dropdown-item
+                :command="{type:'sp',row:scope.row}"
+                :disabled="scope.row.userName == $store.state.name"
+              >
                 <i class="icomoon" :class="scope.row.status?'icon-stop':'icon-play'"></i>
                 <span v-if="scope.row.status">停用</span>
                 <span v-if="!scope.row.status">启用</span>

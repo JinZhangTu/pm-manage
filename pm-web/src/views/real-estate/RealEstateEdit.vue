@@ -35,7 +35,7 @@
           <div
             v-if="type=='detail'"
             class="pull-left"
-            :class="type=='detail'?'disabled':''"
+            :class="{'disabled':type=='detail'}"
           >{{data.mj}}</div>
         </el-col>
       </el-form-item>
