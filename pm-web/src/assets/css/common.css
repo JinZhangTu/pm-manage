@@ -72,3 +72,9 @@
     line-height: 14px;
     margin-right: 5px;
 }
+
+/* 禁止鼠标点击事件 */
+.disabled {
+    cursor: not-allowed;
+    pointer-events: none;
+}

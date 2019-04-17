@@ -29,10 +29,14 @@
         </el-col>
         <div v-if="type=='detail'" class="pull-left">{{data.jg}}</div>
       </el-form-item>
-      <el-form-item label="面级">
+      <el-form-item label="面积">
         <el-col :span="13">
           <el-input v-if="type=='edit'" v-model="data.mj"></el-input>
-          <div v-if="type=='detail'" class="pull-left">{{data.mj}}</div>
+          <div
+            v-if="type=='detail'"
+            class="pull-left"
+            :class="type=='detail'?'disabled':''"
+          >{{data.mj}}</div>
         </el-col>
       </el-form-item>
       <el-form-item label="是否售出">

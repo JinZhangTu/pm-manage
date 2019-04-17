@@ -22,7 +22,7 @@
       </el-form-item>
       <el-form-item label="是否激活">
         <el-col :span="13">
-          <el-switch v-model="data.status" class="pull-left"></el-switch>
+          <el-switch v-model="data.status" class="pull-left" :class="type=='detail'?'disabled':''"></el-switch>
         </el-col>
       </el-form-item>
       <div>
@@ -33,7 +33,6 @@
   </div>
 </template>
 <script>
-
 export default {
   name: "UserEdit",
   data() {
