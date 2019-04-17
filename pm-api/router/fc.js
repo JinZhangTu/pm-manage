@@ -57,4 +57,26 @@ router.get('/fcList/keyword', function (req, res) {
     })
 })
 
+// 查询单条房产信息
+router.get('/fcDetail', function (req, res) {
+    var id = req.query.id;
+    var sql = `select * from fc where id=?`
+    pool.query(sql, [id], function (err, result) {
+        if (err) {
+            res.json({
+                code: 400,
+                message: "数据库操作异常！"
+            });
+            return;
+        } else {
+            res.json({
+                code: 200,
+                content: result,
+                message: "success"
+            });
+        }
+    })
+})
+
+
 module.exports = router;
