@@ -7,7 +7,7 @@
     active-text-color="#ffd04b"
     router
   >
-    <el-menu-item index="/real-estate">
+    <el-menu-item index="/real-estate-list">
       <i>
         <font-awesome-icon :icon="['fas','building']" class="font-icon"></font-awesome-icon>
       </i>
