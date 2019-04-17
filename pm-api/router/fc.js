@@ -79,5 +79,27 @@ router.post('/fcEdit', function (req, res) {
     })
 })
 
+// 删除房产信息
+router.delete('/fcDelete', function (req, res) {
+    var id = req.body.id;
+    var sql = `delete from fc where id=?`
+    var data = [id];
+    pool.query(sql, data, function (err, result) {
+        if (err) {
+            res.json({
+                code: 400,
+                message: "数据库操作异常！"
+            });
+            return;
+        } else {
+            res.json({
+                code: 200,
+                message: "删除成功！"
+            });
+        }
+    })
+
+})
+
 
 module.exports = router;
