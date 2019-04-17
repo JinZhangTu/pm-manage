@@ -206,31 +206,47 @@ router.post('/userEdit', function (req, res) {
     })
 })
 
-// 删除用户信息(将用户status置为0（未激活状态）))
-router.delete('/userDelete', function (req, res) {
+// 转换用户状态(将用户status置为0（未激活状态）))
+router.post('/userSP', function (req, res) {
     var sql = `update user set status=? where id=?`;
     var status = req.body.status;
     var id = req.body.id;
-    var data = [0, id];
-    if (status == 0) {
-        res.json({
-            message: '用户已经是未激活状态'
-        })
-    } else {
-        pool.query(sql, data, function (err, result) {
-            if (err) {
-                res.json({
-                    code: 400,
-                    message: '数据库操作异常'
-                })
-            } else {
-                res.json({
-                    code: 200,
-                    message: '删除成功'
-                })
-            }
-        })
-    }
+    var data = [status, id];
+    pool.query(sql, data, function (err, result) {
+        if (err) {
+            res.json({
+                code: 400,
+                message: '数据库操作异常'
+            })
+        } else {
+            res.json({
+                code: 200,
+                message: status == 0 ? '停用成功' : '启用成功'
+            })
+        }
+    })
+})
+
+// 删除用户信息
+router.delete('/userDelete', function (req, res) {
+    var id = req.body.id;
+    var sql = `delete from user where id=?`
+    var data = [id];
+    pool.query(sql, data, function (err, result) {
+        if (err) {
+            res.json({
+                code: 400,
+                message: "数据库操作异常！"
+            });
+            return;
+        } else {
+            res.json({
+                code: 200,
+                message: "删除成功！"
+            });
+        }
+    })
+
 })
 
 module.exports = router;
