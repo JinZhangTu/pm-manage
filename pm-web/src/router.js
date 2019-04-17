@@ -7,7 +7,8 @@ import Register from './views/Register.vue'
 import UserList from './views/user/UserList.vue'
 import UserEdit from './views/user/UserEdit.vue'
 import UserRegister from './views/user/UserRegister.vue'
-import RealEstate from './views/real-estate/RealEstateList.vue'
+import RealEstateList from './views/real-estate/RealEstateList.vue'
+import RealEstateEdit from './views/real-estate/RealEstateEdit.vue'
 import ProprietorList from './views/proprietor/ProprietorList.vue'
 import Ps from './views/proprietor-serve/ps.vue'
 
@@ -47,9 +48,13 @@ export default new Router({
         name: 'user-register',
         component: UserRegister
       }, {
-        path: '/real-estate',
-        name: 'real-estate',
-        component: RealEstate
+        path: '/real-estate-list',
+        name: 'real-estate-list',
+        component: RealEstateList
+      }, {
+        path: '/real-estate-edit/:type/:id',
+        name: 'real-estate-edit',
+        component: RealEstateEdit
       }, {
         path: '/proprietor-list',
         name: 'proprietor-list',
