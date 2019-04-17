@@ -111,7 +111,7 @@ router.post('/fcInsert', function (req, res) {
     var sc = req.body.sc;
     var created_by = req.body.created_by;
     var data = [lh, dy, mh, jg, mj, sc, created_by, new Date()];
-    pool.query(sql, data, function (err, result) {
+    pool.query(sql, data, function (err, result)  {
         if (err) {
             res.json({
                 code: 400,
