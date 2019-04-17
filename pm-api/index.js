@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const userRouter = require('./router/user.js');
+const fcRouter = require('./router/fc.js')
 const bodyParser = require('body-parser');
 
 
@@ -14,6 +15,7 @@ app.use(bodyParser.urlencoded({
     extended: false
 }));
 app.use(userRouter);
+app.use(fcRouter);
 
 
 
