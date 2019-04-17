@@ -33,10 +33,17 @@
   </div>
 </template>
 <script>
-import _ from "lodash";
 
 export default {
   name: "UserEdit",
+  data() {
+    return {
+      labelPosition: "left",
+      data: null,
+      type: this.$route.params.type,
+      typeList: [{ key: 0, value: "admin" }, { key: 1, value: "user" }]
+    };
+  },
   beforeCreate() {
     var vm = this;
     var params = {
@@ -59,14 +66,6 @@ export default {
       .catch(function(error) {
         console.log(error);
       });
-  },
-  data() {
-    return {
-      labelPosition: "left",
-      data: null,
-      type: this.$route.params.type,
-      typeList: [{ key: 0, value: "admin" }, { key: 1, value: "user" }]
-    };
   },
   methods: {
     editUser: function() {

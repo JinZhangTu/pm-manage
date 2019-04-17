@@ -11,7 +11,7 @@
         </div>
       </el-col>
     </el-row>
-    <el-row class="mb-20 full-left">
+    <el-row class="mb-20">
       <el-col :span="2">
         <span style="font-size:14px;line-height:32px">每页显示：</span>
       </el-col>
