@@ -88,7 +88,7 @@ router.post('/userRegister', function (req, res) {
     var password = md5(req.body.password);
     var created_by = req.body.created_by;
     var data = [userName, password, 'user', 1, created_by, new Date()];
-    pool.query(sql, data, function (err, result) {
+    pool.query("select * from user where userName='" + userName + "'", function (err, result) {
         if (err) {
             res.json({
                 code: 400,
@@ -96,10 +96,27 @@ router.post('/userRegister', function (req, res) {
             });
             return;
         } else {
-            res.json({
-                code: 200,
-                message: "注册成功！"
-            });
+            if (result.length > 0) {
+                res.json({
+                    code: 401,
+                    message: "该用户已存在！"
+                })
+            } else {
+                pool.query(sql, data, function (err, result) {
+                    if (err) {
+                        res.json({
+                            code: 400,
+                            message: "数据库操作异常！"
+                        });
+                        return;
+                    } else {
+                        res.json({
+                            code: 200,
+                            message: "注册成功！"
+                        });
+                    }
+                })
+            }
         }
     })
 })
