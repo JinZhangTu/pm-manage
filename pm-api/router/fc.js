@@ -101,5 +101,31 @@ router.delete('/fcDelete', function (req, res) {
 
 })
 
+router.post('/fcInsert', function (req, res) {
+    var sql = `insert into fc (lh,dy,mh,jg,mj,sc,created_by,created_date) value(?,?,?,?,?,?,?,?)`
+    var lh = req.body.lh;
+    var dy = req.body.dy;
+    var mh = req.body.mh;
+    var jg = req.body.jg;
+    var mj = req.body.mj;
+    var sc = req.body.sc;
+    var created_by = req.body.created_by;
+    var data = [lh, dy, mh, jg, mj, sc, created_by, new Date()];
+    pool.query(sql, data, function (err, result) {
+        if (err) {
+            res.json({
+                code: 400,
+                message: "数据库操作异常！"
+            });
+            return;
+        } else {
+            res.json({
+                code: 200,
+                message: "新增成功！"
+            });
+        }
+    })
+})
+
 
 module.exports = router;
