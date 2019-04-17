@@ -56,7 +56,12 @@
               <el-dropdown-item :command="{type:'edit',id:scope.row.id}">
                 <i class="icomoon icon-pencil"></i>修改
               </el-dropdown-item>
-              <el-dropdown-item :command="{type:'delete',row:scope.row}">
+              <el-dropdown-item :command="{type:'sp',row:scope.row}">
+                <i class="icomoon" :class="scope.row.status?'icon-stop':'icon-play'"></i>
+                <span v-if="scope.row.status">停用</span>
+                <span v-if="!scope.row.status">启用</span>
+              </el-dropdown-item>
+              <el-dropdown-item :command="{type:'delete',id:scope.row.id}">
                 <i class="icomoon icon-delete"></i>删除
               </el-dropdown-item>
             </el-dropdown-menu>
@@ -104,14 +109,37 @@ export default {
       else this.searchStr();
     },
     handleCommand(command) {
+      var vm = this;
       if (command.type == "detail" || command.type == "edit") {
         this.$router.push({
           name: "user-edit",
           params: { type: command.type, id: command.id }
         });
+      } else if (command.type == "sp") {
+        var params = _.cloneDeep(command.row);
+        params.status = params.status ? 0 : 1;
+        vm.axios
+          .post("/api/userSP", params)
+          .then(function(response) {
+            var data = response.data;
+            if (data.code == 200) {
+              vm.search();
+              vm.$message({
+                message: data.message,
+                type: "success"
+              });
+            } else {
+              vm.$message({
+                message: data.message,
+                type: "error"
+              });
+            }
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
       } else if (command.type == "delete") {
-        var vm = this;
-        var params = command.row;
+        var params = { id: command.id };
         vm.axios
           .delete("/api/userDelete", { data: params })
           .then(function(response) {
