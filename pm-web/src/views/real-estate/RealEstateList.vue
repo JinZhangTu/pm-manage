@@ -7,7 +7,7 @@
       <el-col :span="9">
         <div class="pull-right">
           <el-button type="primary" size="medium" class="btn-w90">搜索</el-button>
-          <el-button type="success" size="medium" class="btn-w90">新建</el-button>
+          <el-button type="success" size="medium" class="btn-w90" @click="addRealEstate()">新建</el-button>
         </div>
       </el-col>
     </el-row>
@@ -157,6 +157,12 @@ export default {
         .catch(function(error) {
           console.log(error);
         });
+    },
+    addRealEstate() {
+      this.$router.push({
+        name: "real-estate-edit",
+        params: { type: "add", id: 5 }
+      });
     }
   }
 };
