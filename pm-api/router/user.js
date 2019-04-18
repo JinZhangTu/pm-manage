@@ -11,7 +11,8 @@ router.all('*', function (req, res, next) {
     res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
     res.header('Access-Control-Allow-Headers', 'Content-Type');
-    if (req.url != '/checkLogin' && req.url != '/userRegister') {
+    var path = req.params[0]
+    if (path != '/checkLogin' && path != '/userRegister' && path != '/userExist') {
         var token = req.headers.authorization;
         jwt.verify(token, 'xiaojia', function (error, decoded) {
             if (error) {
@@ -115,6 +116,32 @@ router.post('/userRegister', function (req, res) {
                             message: "注册成功！"
                         });
                     }
+                })
+            }
+        }
+    })
+})
+
+// 校验用户是否已存在
+router.get('/userExist', function (req, res) {
+    var userName = req.query.userName;
+    pool.query("select * from user where userName='" + userName + "'", function (err, result) {
+        if (err) {
+            res.json({
+                code: 400,
+                message: "数据库操作异常！"
+            });
+            return;
+        } else {
+            if (result.length > 0) {
+                res.json({
+                    code: 401,
+                    message: "该用户已存在！"
+                })
+            } else {
+                res.json({
+                    code: 200,
+                    message: "校验通过"
                 })
             }
         }
