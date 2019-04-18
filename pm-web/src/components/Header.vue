@@ -27,6 +27,10 @@ export default {
           icon: ["fas", "user"],
           path: ["用户", "用户管理", "用户编辑"]
         },
+        "user-register": {
+          icon: ["fas", "user"],
+          path: ["用户", "用户管理", "用户注册"]
+        },
         "real-estate-list": {
           icon: ["fas", "building"],
           path: ["房产", "房产管理"]

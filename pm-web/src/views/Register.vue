@@ -60,19 +60,37 @@ export default {
     register() {
       var vm = this;
       var params = vm.user;
-      if (params.userName != "") {
+      if (params.userName == "") {
         this.$notify({
           title: "注意",
           message: "请输入用户名",
           type: "warning"
         });
-      } else if (params.password != "") {
+      } else if (params.userName !== "") {
+        var param = {
+          userName: params.userName
+        };
+        vm.axios
+          .get("/api/userExist", { params: param })
+          .then(function(response) {
+            var data = response.data;
+            if (data.code == 401) {
+              vm.$notify.error({
+                title: "错误",
+                message: "该用户名已存在"
+              });
+            }
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
+      } else if (params.password == "") {
         this.$notify({
           title: "注意",
           message: "请输入密码",
           type: "warning"
         });
-      } else if (params.repassword != "") {
+      } else if (params.repassword == "") {
         this.$notify({
           title: "注意",
           message: "请二次确认密码",

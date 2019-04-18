@@ -57,10 +57,26 @@ export default {
     var checkUser = (rule, value, callback) => {
       if (value === "") {
         return callback(new Error("用户名不能为空"));
+      } else {
+        var vm = this;
+        var params = {
+          userName: vm.ruleForm.userName
+        };
+        vm.axios
+          .get("/api/userExist", { params: params })
+          .then(function(response) {
+            var data = response.data;
+            if (data.code == 401) {
+              return callback(new Error("该用户名已存在"));
+            }
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
       }
       setTimeout(() => {
         callback();
-      }, 1000);
+      }, 500);
     };
     return {
       labelPosition: "left",
