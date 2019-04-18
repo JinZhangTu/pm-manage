@@ -39,7 +39,7 @@ router.post('/checkLogin', function (req, res) {
         if (err) {
             res.json({
                 code: 400,
-                message: "数据库操作异常！"
+                message: "服务器相应失败！"
             });
             return;
         } else {
@@ -47,36 +47,33 @@ router.post('/checkLogin', function (req, res) {
                 if (result[0].status == 1) {
                     var payload = {
                         name: result[0].userName,
-                        admin: false
+                        admin: result[0].type === 'admin' ? true : false
                     }
-                    if (result[0].type === 'admin') payload.admin = true;
                     const token = jwt.sign(payload, secret, {
                         expiresIn: '1day'
                     })
-                    var data = {
+                    res.json({
                         code: 200,
                         content: payload,
                         token: token,
                         message: '登录成功！'
-                    };
-                    res.json(data);
+                    });
                 } else {
                     res.json({
+                        code: 403,
                         message: '账户未激活'
                     })
                 }
             } else if (result.length < 1) {
-                var data = {
+                res.json({
                     code: 401,
                     message: '账号或密码有误！'
-                }
-                res.json(data);
+                });
             } else {
-                var data = {
+                res.json({
                     code: 402,
                     message: '账户异常！'
-                }
-                res.json(data);
+                });
             }
         }
     })
@@ -89,35 +86,18 @@ router.post('/userRegister', function (req, res) {
     var password = md5(req.body.password);
     var created_by = req.body.created_by;
     var data = [userName, password, 'user', 1, created_by, new Date()];
-    pool.query("select * from user where userName='" + userName + "'", function (err, result) {
+    pool.query(sql, data, function (err, result) {
         if (err) {
             res.json({
                 code: 400,
-                message: "数据库操作异常！"
+                message: "服务器相应失败！"
             });
             return;
         } else {
-            if (result.length > 0) {
-                res.json({
-                    code: 401,
-                    message: "该用户已存在！"
-                })
-            } else {
-                pool.query(sql, data, function (err, result) {
-                    if (err) {
-                        res.json({
-                            code: 400,
-                            message: "数据库操作异常！"
-                        });
-                        return;
-                    } else {
-                        res.json({
-                            code: 200,
-                            message: "注册成功！"
-                        });
-                    }
-                })
-            }
+            res.json({
+                code: 200,
+                message: "注册成功！"
+            });
         }
     })
 })
@@ -129,7 +109,7 @@ router.get('/userExist', function (req, res) {
         if (err) {
             res.json({
                 code: 400,
-                message: "数据库操作异常！"
+                message: "服务器相应失败！"
             });
             return;
         } else {
@@ -160,7 +140,7 @@ router.get('/usersList', function (req, res) {
         if (err) {
             res.json({
                 code: 400,
-                message: "数据库操作异常！"
+                message: "服务器相应失败！"
             });
             return;
         } else {
@@ -183,7 +163,7 @@ router.get('/userDetail', function (req, res) {
         if (err) {
             res.json({
                 code: 400,
-                message: "数据库操作异常！"
+                message: "服务器相应失败！"
             });
             return;
         } else {
@@ -209,7 +189,7 @@ router.get('/usersList/keyword', function (req, res) {
         if (err) {
             res.json({
                 code: 400,
-                message: "数据库操作异常！"
+                message: "服务器相应失败！"
             });
             return;
         } else {
@@ -238,7 +218,7 @@ router.post('/userEdit', function (req, res) {
         if (err) {
             res.json({
                 code: 400,
-                message: "数据库操作异常！"
+                message: "服务器相应失败！"
             });
             return;
         } else {
@@ -262,6 +242,7 @@ router.post('/userSP', function (req, res) {
                 code: 400,
                 message: '数据库操作异常'
             })
+            return
         } else {
             res.json({
                 code: 200,
@@ -280,7 +261,7 @@ router.delete('/userDelete', function (req, res) {
         if (err) {
             res.json({
                 code: 400,
-                message: "数据库操作异常！"
+                message: "服务器相应失败！"
             });
             return;
         } else {
