@@ -10,6 +10,12 @@ import UserRegister from './views/user/UserRegister.vue'
 import RealEstateList from './views/real-estate/RealEstateList.vue'
 import RealEstateEdit from './views/real-estate/RealEstateEdit.vue'
 import ProprietorList from './views/proprietor/ProprietorList.vue'
+import ProprietorEdit from './views/proprietor/ProprietorEdit.vue'
+import PersonInfo from './views/person-info/PersonInfo.vue'
+import BaList from './views/ba/BaList.vue'
+import BaEdit from './views/ba/BaEdit.vue'
+import BjList from './views/bj/BjList.vue'
+import BjEdit from './views/bj/BjEdit.vue'
 import Ps from './views/proprietor-serve/ps.vue'
 
 Vue.use(Router)
@@ -36,6 +42,10 @@ export default new Router({
       name: 'main',
       component: Main,
       children: [{
+        path: '/person-info',
+        name: 'person-info',
+        component: PersonInfo
+      }, {
         path: '/user-list',
         name: 'user-list',
         component: UserList
@@ -60,9 +70,29 @@ export default new Router({
         name: 'proprietor-list',
         component: ProprietorList
       }, {
+        path: '/proprietor-edit/:type/:id',
+        name: 'proprietor-edit',
+        component: ProprietorEdit
+      }, {
         path: '/ps',
         name: 'ps',
         component: Ps
+      }, {
+        path: '/ba-list',
+        name: 'ba-list',
+        component: BaList
+      }, {
+        path: '/ba-edit/:type/:id',
+        name: 'ba-edit',
+        component: BaEdit
+      }, {
+        path: '/bj-list',
+        name: 'bj-list',
+        component: BjList
+      }, {
+        path: '/bj-edit/:type/:id',
+        name: 'bj-edit',
+        component: BjEdit
       }],
       beforeEnter: (to, from, next) => {
         var token = localStorage.getItem('Authorization');
