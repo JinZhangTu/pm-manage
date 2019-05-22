@@ -16,6 +16,8 @@ import BaList from './views/ba/BaList.vue'
 import BaEdit from './views/ba/BaEdit.vue'
 import BjList from './views/bj/BjList.vue'
 import BjEdit from './views/bj/BjEdit.vue'
+import BjWork from './views/bj/BjWork.vue'
+import Wyly from './views/wyly/wyly.vue'
 import Ps from './views/proprietor-serve/ps.vue'
 
 Vue.use(Router)
@@ -93,6 +95,14 @@ export default new Router({
         path: '/bj-edit/:type/:id',
         name: 'bj-edit',
         component: BjEdit
+      }, {
+        path: '/bj-work',
+        name: 'bj-work',
+        component: BjWork
+      }, {
+        path: '/wyly',
+        name: 'wyly',
+        component: Wyly
       }],
       beforeEnter: (to, from, next) => {
         var token = localStorage.getItem('Authorization');
